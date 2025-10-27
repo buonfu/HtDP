@@ -1,0 +1,57 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname guideonworldprogram) (read-case-sensitive #t) (teachpacks ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "image.rkt" "teachpack" "2htdp") (lib "universe.rkt" "teachpack" "2htdp") (lib "batch-io.rkt" "teachpack" "2htdp")) #f)))
+(define WHEEL-RADIUS 5)                           ; wishlist 1
+
+
+
+(define WHEEL
+  (circle WHEEL-RADIUS "solid" "black"))
+(define SPACE
+  (rectangle ... WHEEL-RADIUS ... "white"))
+(define BOTH-WHEELS
+  (beside WHEEL SPACE WHEEL))
+
+; A WorldState is a Number.
+; interpretation the number of pixels between
+; the left border of the scene and the car
+
+; render
+
+; clock-tick-handler
+; keystroke-handler
+; mouse-event-handler
+
+; end?
+
+; WorldState -> Image                            ; wishlist 3
+; places the image of the car x pixels from 
+; the left margin of the BACKGROUND image 
+; (define (render x)
+;  BACKGROUND)
+; WorldState -> Image
+; places the car into the BACKGROUND scene,
+; according to the given world state 
+ (define (render cw)
+   (place-image CAR cw Y-CAR BACKGROUND))
+ 
+; WorldState -> WorldState                       ; wishlist 2
+; adds 3 to x to move the car right 
+; (define (tock x)
+;  x)
+
+; WorldState -> WorldState 
+; moves the car by 3 pixels for every clock tick
+; examples: 
+;   given: 20, expect 23
+;   given: 78, expect 81
+(define (tock cw)
+  (+ cw 3))
+
+
+; WorldState -> WorldState
+; launches the program from some initial state 
+(define (main ws)
+   (big-bang ws
+     [on-tick tock]
+     [to-draw render]))
